@@ -152,7 +152,9 @@ try:
 #    print ("roll = %.3f" % ( adxl345.getRoll() ))
 
 	print("norm a = %.3f" %(sqrt(pow(adxl345.X, 2)+pow(adxl345.Y, 2)+pow(adxl345.Z, 2))))
-
+    print("Roll: %.3f" %(atan(adx1345.Yg/adx1345.Zg))/pi*180)
+    print("Pitch: %.3f" %(atan(-adx1345.Xg/sqrt(pow(adx1345.Yg,2)+pow(adx1345.Zg,2)))/pi*180))
+    print("Tilt: %.3f" %(acos(adx1345.Zg/sqrt(pow(adx1345.Xz,2)+pow(,2)+pow(,2)))/pi*180))
         
 except KeyboardInterrupt:
     print("Cleanup")

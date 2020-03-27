@@ -65,10 +65,10 @@ class L3G4200D(IMU):
         self.t0z = None
 
         # set value
-        self.gain_std = ??    # dps/digit
+        self.gain_std = 0.00875    # dps/digit
         
-        self.write_byte(L3G4200D_CTRL_REG1, 0x??)
-        self.write_byte(L3G4200D_CTRL_REG4, 0x??)
+        self.write_byte(L3G4200D_CTRL_REG1, 0x0F)
+        self.write_byte(L3G4200D_CTRL_REG4, 0x80)
 
         self.setCalibration()
 
