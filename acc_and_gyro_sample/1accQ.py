@@ -119,7 +119,10 @@ class ADXL345(IMU):
         aX = self.getXg()
         aY = self.getYg()
         aZ = self.getZg()
-        self.pitch = atan(-aX/sqrt(pow(aY,2)+pow(aZ,2)))/pi*180
+        try:
+            self.pitch = atan(-aX/sqrt(pow(aY,2)+pow(aZ,2)))/pi*180
+        except:
+            self.pitch = -999
         return self.pitch 
 
     def getRoll(self) :
