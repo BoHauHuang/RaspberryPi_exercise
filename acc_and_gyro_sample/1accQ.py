@@ -119,16 +119,26 @@ class ADXL345(IMU):
         aX = self.getXg()
         aY = self.getYg()
         aZ = self.getZg()
-        self.pitch = ??????
+        self.pitch = atan(-aX/sqrt(pow(aY,2)+pow(aZ,2)))/pi*180
         return self.pitch 
 
     def getRoll(self) :
         aX = self.getXg()
         aY = self.getYg()
         aZ = self.getZg()
-        self.roll = ??????
+        self.roll = atan(aY/aZ)/pi*180
         return self.roll
 
+    def getTilt(self):
+    	aX = self.getXg()
+        aY = self.getYg()
+        aZ = self.getZg()
+        self.tilt = acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2)))/pi*180
+    	return self.tilt
+
+    def getNorm(self, ax, ay, az):
+    	self.norm = sqrt(pow(ax, 2)+pow(ay, 2)+powy(az, 2))
+    	return self.norm
 
 try:
     sensors = gy801()
@@ -148,13 +158,12 @@ try:
     print ("Xraw = %.3f" % ( adxl345.Xraw ))
     print ("Yraw = %.3f" % ( adxl345.Yraw ))
     print ("Zraw = %.3f" % ( adxl345.Zraw ))
-#    print ("pitch = %.3f" % ( adxl345.getPitch() ))
-#    print ("roll = %.3f" % ( adxl345.getRoll() ))
 
-	print("norm a = %.3f" %(sqrt(pow(adxl345.X, 2)+pow(adxl345.Y, 2)+pow(adxl345.Z, 2))))
-    print("Roll: %.3f" %(atan(adx1345.Yg/adx1345.Zg))/pi*180)
-    print("Pitch: %.3f" %(atan(-adx1345.Xg/sqrt(pow(adx1345.Yg,2)+pow(adx1345.Zg,2)))/pi*180))
-    print("Tilt: %.3f" %(acos(adx1345.Zg/sqrt(pow(adx1345.Xz,2)+pow(,2)+pow(,2)))/pi*180))
-        
+    print ("norm = %.3f" %( adxl345.getNorm(adxl345.X, adxl345.Y, adxl345.Z) ))
+
+    print ("pitch = %.3f" % ( adxl345.getPitch() ))
+    print ("roll = %.3f" % ( adxl345.getRoll() ))
+    print ("tilt = %.3f" %( adxl345.getTilt() ))
+
 except KeyboardInterrupt:
     print("Cleanup")
