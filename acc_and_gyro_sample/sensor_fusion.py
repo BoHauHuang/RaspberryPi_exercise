@@ -275,3 +275,6 @@ try:
         print ("roll = %.3f" % ( adxl345.getRoll(pre_roll, gyro_y) ))
 
         time.sleep(0.5)
+
+except KeyboardInterrupt:
+    print("Cleanup")
