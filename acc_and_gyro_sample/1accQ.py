@@ -153,6 +153,8 @@ try:
     sensors = gy801()
     adxl345 = sensors.accel
     while 1:
+    	
+    	print(pi)
         adxl345.getX()
         adxl345.getY()
         adxl345.getZ()
