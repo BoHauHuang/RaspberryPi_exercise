@@ -265,7 +265,7 @@ class L3G4200D(IMU):
 try:
     sensor = gy801()
     gyro = sensor.gyro
-    accel = sensor.accel
+    adxl345 = sensor.accel
 
     while 1:
         gyro_x = gyro.getXangle()
