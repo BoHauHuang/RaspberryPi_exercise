@@ -54,9 +54,9 @@ class ADXL345(IMU):
     
     def __init__(self) :
         #Class Properties
-        self.Xoffset = 0.0
-        self.Yoffset = 0.0
-        self.Zoffset = 0.0
+        self.Xoffset = 0.012
+        self.Yoffset = 0.032
+        self.Zoffset = 0.052
         self.Xraw = 0.0
         self.Yraw = 0.0
         self.Zraw = 0.0
@@ -162,9 +162,9 @@ try:
         print ("X = %.3f m/s2" % ( adxl345.X ))
         print ("Y = %.3f m/s2" % ( adxl345.Y ))
         print ("Z = %.3f m/s2" % ( adxl345.Z ))
-    #    print ("x = %.3fG" % ( adxl345.Xg ))
-    #    print ("y = %.3fG" % ( adxl345.Yg ))
-    #    print ("z = %.3fG" % ( adxl345.Zg ))
+#        print ("x = %.3fG" % ( adxl345.Xg ))
+#        print ("y = %.3fG" % ( adxl345.Yg ))
+#        print ("z = %.3fG" % ( adxl345.Zg ))
         print ("Xraw = %.3f" % ( adxl345.Xraw ))
         print ("Yraw = %.3f" % ( adxl345.Yraw ))
         print ("Zraw = %.3f" % ( adxl345.Zraw ))
