@@ -142,7 +142,7 @@ class ADXL345(IMU):
         try:
             self.tilt = acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2)))/pi*180
         except:
-            self.tile = -999
+            self.tilt = -999
         return self.tilt
 
     def getNorm(self, ax, ay, az):
