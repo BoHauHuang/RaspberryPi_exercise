@@ -137,7 +137,7 @@ class ADXL345(IMU):
     	return self.tilt
 
     def getNorm(self, ax, ay, az):
-    	self.norm = sqrt(pow(ax, 2)+pow(ay, 2)+powy(az, 2))
+    	self.norm = sqrt(pow(ax, 2)+pow(ay, 2)+pow(az, 2))
     	return self.norm
 
 try:
