@@ -262,9 +262,6 @@ class L3G4200D(IMU):
         self.Zangle = self.getZ(plf) * LP
         return self.Zangle
 
-
-
-
 try:
     sensor = gy801()
     gyro = sensor.gyro
