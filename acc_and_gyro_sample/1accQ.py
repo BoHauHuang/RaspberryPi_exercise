@@ -14,9 +14,9 @@ ADXL345_DATA_FORMAT      =    0x31
 ADXL345_DATAX0           =    0x32
 ADXL345_DATAY0           =    0x34
 ADXL345_DATAZ0           =    0x36
-ADXL345_SCALE_MULTIPLIER = ???    # G/LSP
-ADXL345_BW_RATE_100HZ    = 0x?? 
-ADXL345_MEASURE          = 0x?? 
+ADXL345_SCALE_MULTIPLIER = 1/256    # G/LSP
+ADXL345_BW_RATE_100HZ    = 0x0A 
+ADXL345_MEASURE          = 0x08 
 
 class IMU(object):
 
@@ -139,17 +139,19 @@ try:
     adxl345.getZ()
 
     print ("ACC: ")
-    print ("x = %.3f m/s2" % ( adxl345.X ))
-    print ("y = %.3f m/s2" % ( adxl345.Y ))
-    print ("z = %.3f m/s2" % ( adxl345.Z ))
+    print ("X = %.3f m/s2" % ( adxl345.X ))
+    print ("Y = %.3f m/s2" % ( adxl345.Y ))
+    print ("Z = %.3f m/s2" % ( adxl345.Z ))
 #    print ("x = %.3fG" % ( adxl345.Xg ))
 #    print ("y = %.3fG" % ( adxl345.Yg ))
 #    print ("z = %.3fG" % ( adxl345.Zg ))
-    print ("x = %.3f" % ( adxl345.Xraw ))
-    print ("y = %.3f" % ( adxl345.Yraw ))
-    print ("z = %.3f" % ( adxl345.Zraw ))
+    print ("Xraw = %.3f" % ( adxl345.Xraw ))
+    print ("Yraw = %.3f" % ( adxl345.Yraw ))
+    print ("Zraw = %.3f" % ( adxl345.Zraw ))
 #    print ("pitch = %.3f" % ( adxl345.getPitch() ))
 #    print ("roll = %.3f" % ( adxl345.getRoll() ))
+
+	print("norm a = %.3f" %(sqrt(pow(adxl345.X, 2)+pow(adxl345.Y, 2)+pow(adxl345.Z, 2))))
 
         
 except KeyboardInterrupt:
