@@ -126,14 +126,20 @@ class ADXL345(IMU):
         aX = self.getXg()
         aY = self.getYg()
         aZ = self.getZg()
-        self.roll = atan(aY/aZ)/pi*180
+        try:
+        	self.roll = atan(aY/aZ)/pi*180
+        except:
+        	self.roll = -999
         return self.roll
 
     def getTilt(self):
     	aX = self.getXg()
         aY = self.getYg()
         aZ = self.getZg()
-        self.tilt = acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2)))/pi*180
+        try:
+        	self.tilt = acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2)))/pi*180
+        except:
+        	self.tile = -999
     	return self.tilt
 
     def getNorm(self, ax, ay, az):
@@ -143,27 +149,27 @@ class ADXL345(IMU):
 try:
     sensors = gy801()
     adxl345 = sensors.accel
+	while 1:
+	    adxl345.getX()
+	    adxl345.getY()
+	    adxl345.getZ()
 
-    adxl345.getX()
-    adxl345.getY()
-    adxl345.getZ()
+	    print ("ACC: ")
+	    print ("X = %.3f m/s2" % ( adxl345.X ))
+	    print ("Y = %.3f m/s2" % ( adxl345.Y ))
+	    print ("Z = %.3f m/s2" % ( adxl345.Z ))
+	#    print ("x = %.3fG" % ( adxl345.Xg ))
+	#    print ("y = %.3fG" % ( adxl345.Yg ))
+	#    print ("z = %.3fG" % ( adxl345.Zg ))
+	    print ("Xraw = %.3f" % ( adxl345.Xraw ))
+	    print ("Yraw = %.3f" % ( adxl345.Yraw ))
+	    print ("Zraw = %.3f" % ( adxl345.Zraw ))
 
-    print ("ACC: ")
-    print ("X = %.3f m/s2" % ( adxl345.X ))
-    print ("Y = %.3f m/s2" % ( adxl345.Y ))
-    print ("Z = %.3f m/s2" % ( adxl345.Z ))
-#    print ("x = %.3fG" % ( adxl345.Xg ))
-#    print ("y = %.3fG" % ( adxl345.Yg ))
-#    print ("z = %.3fG" % ( adxl345.Zg ))
-    print ("Xraw = %.3f" % ( adxl345.Xraw ))
-    print ("Yraw = %.3f" % ( adxl345.Yraw ))
-    print ("Zraw = %.3f" % ( adxl345.Zraw ))
+	    print ("norm = %.3f" %( adxl345.getNorm(adxl345.X, adxl345.Y, adxl345.Z) ))
 
-    print ("norm = %.3f" %( adxl345.getNorm(adxl345.X, adxl345.Y, adxl345.Z) ))
-
-    print ("pitch = %.3f" % ( adxl345.getPitch() ))
-    print ("roll = %.3f" % ( adxl345.getRoll() ))
-    print ("tilt = %.3f" %( adxl345.getTilt() ))
+	    print ("pitch = %.3f" % ( adxl345.getPitch() ))
+	    print ("roll = %.3f" % ( adxl345.getRoll() ))
+	    print ("tilt = %.3f" %( adxl345.getTilt() ))
 
 except KeyboardInterrupt:
     print("Cleanup")
