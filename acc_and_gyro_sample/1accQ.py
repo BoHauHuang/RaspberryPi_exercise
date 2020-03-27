@@ -120,7 +120,7 @@ class ADXL345(IMU):
         aY = self.getYg()
         aZ = self.getZg()
         try:
-            self.pitch = atan(-aX/sqrt(pow(aY,2)+pow(aZ,2)))/pi*180
+            self.pitch = degrees(atan(-aX/sqrt(pow(aY,2)+pow(aZ,2))))
         except:
             self.pitch = -999
         return self.pitch 
@@ -130,7 +130,7 @@ class ADXL345(IMU):
         aY = self.getYg()
         aZ = self.getZg()
         try:
-            self.roll = atan(aY/aZ)/pi*180
+            self.roll = degrees(atan(aY/aZ))
         except:
             self.roll = -999
         return self.roll
@@ -140,7 +140,7 @@ class ADXL345(IMU):
         aY = self.getYg()
         aZ = self.getZg()
         try:
-            self.tilt = acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2)))/pi*180
+            self.tilt = degrees(acos(aZ/sqrt(pow(aX,2)+pow(aY,2)+pow(aZ,2))))
         except:
             self.tilt = -999
         return self.tilt
@@ -153,8 +153,7 @@ try:
     sensors = gy801()
     adxl345 = sensors.accel
     while 1:
-    	
-    	print(pi)
+
         adxl345.getX()
         adxl345.getY()
         adxl345.getZ()
