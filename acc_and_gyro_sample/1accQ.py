@@ -173,6 +173,7 @@ try:
         print ("pitch = %.3f" % ( adxl345.getPitch() ))
         print ("roll = %.3f" % ( adxl345.getRoll() ))
         print ("tilt = %.3f" %( adxl345.getTilt() ))
+        time.sleep(0.5)
 
 except KeyboardInterrupt:
     print("Cleanup")
