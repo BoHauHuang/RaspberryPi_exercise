@@ -1,6 +1,3 @@
-from 1accQ import ADXL345
-from 2gyroQ import L3G4200D
-
 import smbus
 import time
 from math import *
