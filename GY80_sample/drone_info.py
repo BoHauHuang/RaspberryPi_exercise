@@ -534,10 +534,10 @@ try:
 
         print("Roll: %.3f, " %(roll)),
         print("Pitch: %.3f, " %(pitch)),
-        print("Tilt: %.3f, " %(acc.getTilt()))
-        print("Heading: %.3f deg, " %(bearing2))
+        print("Tilt: %.3f, " %(acc.getTilt())),
+        print("Heading: %.3f deg, " %(bearing2)),
         print("Altitude: %.3f." %(baro.getAltitude()))
-        time.sleep(1)
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
     print("Cleanup")
