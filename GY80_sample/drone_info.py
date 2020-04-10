@@ -534,3 +534,6 @@ try:
     print("Heading: %.3f deg, " %(bearing2))
     print("Altitude: %.3f." %(baro.getAltitude()))
     time.sleep(1)
+    
+except KeyboardInterrupt:
+    print("Cleanup")
