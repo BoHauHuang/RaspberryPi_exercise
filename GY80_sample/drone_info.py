@@ -469,14 +469,14 @@ class gy801(object):
         self.baro = BMP180()
 
 try:
-	sensors = gy801()
-	
-	acc = sensors.accel
-	gyro = sensors.gyro
-	compass = sensors.compass
-	baro = sensors.baro
+    sensors = gy801()
 
-	magx = compass.getX()
+    acc = sensors.accel
+    gyro = sensors.gyro
+    compass = sensors.compass
+    baro = sensors.baro
+
+    magx = compass.getX()
     magy = compass.getY()
     magz = compass.getZ()
 
@@ -492,8 +492,7 @@ try:
     roll = adxl345.getRoll(pre_roll, gyro_y)
     pitch = adxl345.getPitch(pre_pitch, gyro_x)
     # --------------------------------------------------
-    
-   
+
     # --------------------------------------------------
     # Heading
     bearing1  = degrees(atan2(magy, magx))
