@@ -55,7 +55,7 @@ class ADXL345(IMU):
     def __init__(self) :
         #Class Properties
         self.Xoffset = 0.022
-        self.Yoffset = 0.022
+        self.Yoffset = 0.012
         self.Zoffset = 0.052
         self.Xraw = 0.0
         self.Yraw = 0.0
