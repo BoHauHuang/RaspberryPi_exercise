@@ -359,6 +359,8 @@ class HMC5883L(IMU):
         self.angle = bearing + self.angle_offset
         return self.angle
 
+pre_roll = None
+pre_pitch = None
 
 try:
     sensors = gy801()
