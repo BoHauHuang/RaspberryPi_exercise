@@ -112,8 +112,8 @@ class ADXL345(IMU):
     
     def __init__(self) :
         #Class Properties
-        self.Xoffset = 0.012
-        self.Yoffset = 0.032
+        self.Xoffset = 0.022
+        self.Yoffset = 0.022
         self.Zoffset = 0.052
         self.Xraw = 0.0
         self.Yraw = 0.0
@@ -469,11 +469,69 @@ class gy801(object):
         self.baro = BMP180()
 
 try:
-	sensor = gy801()
+	sensors = gy801()
 	
-	acc = sensor.accel
-	gyro = sensor.gyro
-	compass = sensor.compass
-	baro = sensor.baro
+	acc = sensors.accel
+	gyro = sensors.gyro
+	compass = sensors.compass
+	baro = sensors.baro
 
-	
+	magx = compass.getX()
+    magy = compass.getY()
+    magz = compass.getZ()
+
+    # --------------------------------------------------
+    # calculate pitch, roll, tilt
+    aX = adxl345.getX()
+    aY = adxl345.getY()
+    aZ = adxl345.getZ()
+
+    gyro_x = gyro.getXangle()
+    gyro_y = gyro.getYangle()
+    
+    roll = adxl345.getRoll(pre_roll, gyro_y)
+    pitch = adxl345.getPitch(pre_pitch, gyro_x)
+    # --------------------------------------------------
+    
+   
+    # --------------------------------------------------
+    # Heading
+    bearing1  = degrees(atan2(magy, magx))
+
+    if (bearing1 < 0):
+        bearing1 += 360
+    if (bearing1 > 360):
+        bearing1 -= 360
+    bearing1 = bearing1 + compass.angle_offset
+    
+    # Tilt compensate
+    compx = magx * cos(pitch) + magz * sin(pitch)
+    compy = magx * sin(roll) * sin(pitch) \
+            + magy * cos(roll) \
+            - magz * sin(roll) * cos(pitch)
+
+    bearing2  = degrees(atan2(compy, compx))
+    if (bearing2 < 0):
+        bearing2 += 360
+    if (bearing2 > 360):
+        bearing2 -= 360
+    bearing2 = bearing2 + compass.angle_offset
+    # --------------------------------------------------
+
+    #print ("Compass: " )
+    #print ("X = %d ," % ( magx ))
+    #print ("Y = %d ," % ( magy ))
+    #print ("Z = %d (gauss)" % ( magz ))
+    #print ("tiltX = %.3f ," % ( compx ))
+    #print ("tiltY = %.3f ," % ( compy ))
+   
+    #print ("Angle offset = %.3f deg" % ( compass.angle_offset ))
+    #print ("Original Heading = %.3f deg, " % ( bearing1 ))
+    #print ("Tilt Heading = %.3f deg, " % ( bearing2 ))
+
+    print("Roll: %.3f, " %(roll)),
+    print("Pitch: %.3f, " %(pitch)),
+    print("Tilt: %.3f, " %(adxl345.getTilt()))
+    print("Heading: %.3f deg, " %(bearing2))
+    print("Altitude: %.3f." %(baro.getAltitude()))
+    time.sleep(1)
