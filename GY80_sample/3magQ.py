@@ -23,7 +23,9 @@ HMC5883L_DO_Z_L         =    0x06
 HMC5883L_DO_Y_H         =    0x07
 HMC5883L_DO_Y_L         =    0x08
 
+# ---------------------------------
 
+# accelerator
 # the following address is defined by datasheet
 ADXL345_ADDRESS         =    0x53 # I2C address
 
@@ -36,7 +38,6 @@ ADXL345_DATAY0          =    0x34
 ADXL345_DATAY1          =    0x35
 ADXL345_DATAZ0          =    0x36
 ADXL345_DATAZ1          =    0x37
-# ---------------------------------
 
 # set value
 ADXL345_SCALE_MULTIPLIER= 0.00390625    # G/LSP. 1/256 = 0.00390625
@@ -44,6 +45,18 @@ ADXL345_BW_RATE_100HZ   = 0x0A          # 0A = 0000 1111
 ADXL345_MEASURE         = 0x08          # 08 = 0000 1000
 
 
+# ---------------------------------
+
+# Gyro
+L3G4200D_ADDRESS        =    0x69
+L3G4200D_CTRL_REG1      =    0x20
+L3G4200D_CTRL_REG4      =    0x23
+L3G4200D_OUT_X_L        =    0x28
+L3G4200D_OUT_X_H        =    0x29
+L3G4200D_OUT_Y_L        =    0x2A
+L3G4200D_OUT_Y_H        =    0x2B
+L3G4200D_OUT_Z_L        =    0x2C
+L3G4200D_OUT_Z_H        =    0x2D
 
 class IMU(object):
 
@@ -77,7 +90,7 @@ class gy801(object):
     def __init__(self) :
         self.compass = HMC5883L()
         self.accel = ADXL345()
-
+        self.gyro = L3G4200D()
 
 
 # -----------------------------------------------------
@@ -208,7 +221,87 @@ class ADXL345(IMU):
         pre_roll = self.roll
         return self.roll
 
+# -----------------------------------------------------
 
+class L3G4200D(IMU):
+    
+    ADDRESS = L3G4200D_ADDRESS
+
+    def __init__(self) :
+        #Class Properties
+        self.Xraw = 0.0
+        self.Yraw = 0.0
+        self.Zraw = 0.0
+        self.X = 0.0
+        self.Y = 0.0
+        self.Z = 0.0
+        self.Xangle = 0.0
+        self.Yangle = 0.0
+        self.Zangle = 0.0
+        self.t0x = None
+        self.t0y = None
+        self.t0z = None
+
+        # set value
+        self.gain_std = 0.00875    # dps/digit
+        
+        self.write_byte(L3G4200D_CTRL_REG1, 0x0F)
+        self.write_byte(L3G4200D_CTRL_REG4, 0x80)
+
+        self.setCalibration()
+
+    def setCalibration(self) :
+        gyr_r = self.read_byte(L3G4200D_CTRL_REG4)
+        
+        self.gain = 2 ** ( gyr_r & 48 >> 4) * self.gain_std
+
+    def getRawX(self):
+        self.Xraw = self.read_word_2c(L3G4200D_OUT_X_L)
+        return self.Xraw
+
+    def getRawY(self):
+        self.Yraw = self.read_word_2c(L3G4200D_OUT_Y_L)
+        return self.Yraw
+
+    def getRawZ(self):
+        self.Zraw = self.read_word_2c(L3G4200D_OUT_Z_L)
+        return self.Zraw
+
+    def getX(self,plf = 1.0):
+        self.X = ( self.getRawX() * self.gain ) * plf + (1.0 - plf) * self.X
+        return self.X
+
+    def getY(self,plf = 1.0):
+        self.Y = ( self.getRawY() * self.gain ) * plf + (1.0 - plf) * self.Y
+        return self.Y
+
+    def getZ(self,plf = 1.0):
+        self.Z = ( self.getRawZ() * self.gain ) * plf + (1.0 - plf) * self.Z
+        return self.Z
+    
+    def getXangle(self,plf = 1.0) :
+        if self.t0x is None : self.t0x = time.time()
+        t1x = time.time()
+        LP = t1x - self.t0x
+        self.t0x = t1x
+        self.Xangle = self.getX(plf) * LP
+        return self.Xangle
+    
+    def getYangle(self,plf = 1.0) :
+        if self.t0y is None : self.t0y = time.time()
+        t1y = time.time()
+        LP = t1y - self.t0y
+        self.t0y = t1y
+        self.Yangle = self.getY(plf) * LP
+        return self.Yangle
+    
+    def getZangle(self,plf = 1.0) :
+        if self.t0z is None : self.t0z = time.time()
+        t1z = time.time()
+        LP = t1z - self.t0z
+        self.t0z = t1z
+        self.Zangle = self.getZ(plf) * LP
+        return self.Zangle
 
 # -----------------------------------------------------
 
@@ -222,9 +315,9 @@ class HMC5883L(IMU):
         self.Y = None
         self.Z = None
         self.angle = None
-        self.Xoffset = 0
-        self.Yoffset = 0
-        self.Zoffset = 0
+        self.Xoffset = -25
+        self.Yoffset = 24
+        self.Zoffset = -92
         
         # Declination Angle
         self.angle_offset = ( -1 * (4 + (32/60))) / (180 / pi)
@@ -267,11 +360,11 @@ class HMC5883L(IMU):
         return self.angle
 
 
-
 try:
     sensors = gy801()
     compass = sensors.compass
     adxl345 = sensors.accel
+    gyro = sensors.gyro
 
     while True:
         magx = compass.getX()
@@ -283,12 +376,15 @@ try:
         aX = adxl345.getX()
         aY = adxl345.getY()
         aZ = adxl345.getZ()
+
+        gyro_x = gyro.getXangle()
+        gyro_y = gyro.getYangle()
         
-        roll = atan2(aY,aZ) 
-        pitch = -1 * atan2(-aX,sqrt(aY*aY+aZ*aZ)) 
+        roll = adxl345.getRoll(pre_roll, gyro_y)
+        pitch = adxl345.getPitch(pre_pitch, gyro_x)
         # --------------------------------------------------
         
-        
+       
         # --------------------------------------------------
         # Heading
         bearing1  = degrees(atan2(magy, magx))
@@ -313,18 +409,17 @@ try:
         bearing2 = bearing2 + compass.angle_offset
         # --------------------------------------------------
 
-        
-#        print ("Compass: " )
-#        print ("X = %d ," % ( magx )),
-#        print ("Y = %d ," % ( magy )),
-#        print ("Z = %d (gauss)" % ( magz ))
-#        print ("tiltX = %.3f ," % ( compx )),
-#        print ("tiltY = %.3f ," % ( compy )),
+        print ("Compass: " )
+        print ("X = %d ," % ( magx )),
+        print ("Y = %d ," % ( magy )),
+        print ("Z = %d (gauss)" % ( magz ))
+        print ("tiltX = %.3f ," % ( compx )),
+        print ("tiltY = %.3f ," % ( compy )),
        
 #        print ("Angle offset = %.3f deg" % ( compass.angle_offset ))
         print ("Original Heading = %.3f deg, " % ( bearing1 )), 
         print ("Tilt Heading = %.3f deg, " % ( bearing2 ))
-        #time.sleep(1)
+        time.sleep(1)
 
         
 except KeyboardInterrupt:
