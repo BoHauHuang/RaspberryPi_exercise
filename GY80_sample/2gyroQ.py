@@ -125,6 +125,8 @@ class L3G4200D(IMU):
         self.Zangle = self.getZ(plf) * LP
         return self.Zangle
 
+pre_roll = None
+pre_pitch = None
 
 try:
     # if run directly we'll just create an instance of the class and output 
