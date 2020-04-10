@@ -482,15 +482,15 @@ try:
 
     # --------------------------------------------------
     # calculate pitch, roll, tilt
-    aX = adxl345.getX()
-    aY = adxl345.getY()
-    aZ = adxl345.getZ()
+    aX = acc.getX()
+    aY = acc.getY()
+    aZ = acc.getZ()
 
     gyro_x = gyro.getXangle()
     gyro_y = gyro.getYangle()
     
-    roll = adxl345.getRoll(pre_roll, gyro_y)
-    pitch = adxl345.getPitch(pre_pitch, gyro_x)
+    roll = acc.getRoll(pre_roll, gyro_y)
+    pitch = acc.getPitch(pre_pitch, gyro_x)
     # --------------------------------------------------
 
     # --------------------------------------------------
@@ -530,7 +530,7 @@ try:
 
     print("Roll: %.3f, " %(roll)),
     print("Pitch: %.3f, " %(pitch)),
-    print("Tilt: %.3f, " %(adxl345.getTilt()))
+    print("Tilt: %.3f, " %(acc.getTilt()))
     print("Heading: %.3f deg, " %(bearing2))
     print("Altitude: %.3f." %(baro.getAltitude()))
     time.sleep(1)
