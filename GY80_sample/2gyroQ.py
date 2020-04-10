@@ -131,17 +131,18 @@ try:
     # the current readings
     
     sensors = gy801()
-
     gyro = sensors.gyro
     
-    gyro.getXangle()
-    gyro.getYangle()
-    gyro.getZangle()
+    while 1:
+        gyro.getXangle()
+        gyro.getYangle()
+        gyro.getZangle()
     
-    print ("Gyro: ")
-    print ("Xangle = %.3f deg" % ( gyro.getXangle() ))
-    print ("Yangle = %.3f deg" % ( gyro.getYangle() ))
-    print ("Zangle = %.3f deg" % ( gyro.getZangle() ))
+        print ("Gyro: ")
+        print ("Xangle = %.3f deg" % ( gyro.getXangle() ))
+        print ("Yangle = %.3f deg" % ( gyro.getYangle() ))
+        print ("Zangle = %.3f deg" % ( gyro.getZangle() ))
+        time.sleep(0.5)
         
 except KeyboardInterrupt:
     print("Cleanup")
