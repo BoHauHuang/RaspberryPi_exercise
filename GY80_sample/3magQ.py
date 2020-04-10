@@ -315,9 +315,9 @@ class HMC5883L(IMU):
         self.Y = None
         self.Z = None
         self.angle = None
-        self.Xoffset = 126
-        self.Yoffset = 24
-        self.Zoffset = -155
+        self.Xoffset = 27
+        self.Yoffset = -89
+        self.Zoffset = -304
         
         # Declination Angle
         self.angle_offset = ( -1 * (4 + (32/60))) / (180 / pi)
