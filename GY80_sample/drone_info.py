@@ -468,6 +468,9 @@ class gy801(object):
         self.compass = HMC5883L()
         self.baro = BMP180()
 
+pre_roll = None
+pre_pitch = None
+
 try:
     sensors = gy801()
 
@@ -534,6 +537,6 @@ try:
     print("Heading: %.3f deg, " %(bearing2))
     print("Altitude: %.3f." %(baro.getAltitude()))
     time.sleep(1)
-    
+
 except KeyboardInterrupt:
     print("Cleanup")
