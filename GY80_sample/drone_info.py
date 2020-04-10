@@ -472,71 +472,72 @@ pre_roll = None
 pre_pitch = None
 
 try:
-    sensors = gy801()
+    while 1:
+        sensors = gy801()
 
-    acc = sensors.accel
-    gyro = sensors.gyro
-    compass = sensors.compass
-    baro = sensors.baro
+        acc = sensors.accel
+        gyro = sensors.gyro
+        compass = sensors.compass
+        baro = sensors.baro
 
-    magx = compass.getX()
-    magy = compass.getY()
-    magz = compass.getZ()
+        magx = compass.getX()
+        magy = compass.getY()
+        magz = compass.getZ()
 
-    # --------------------------------------------------
-    # calculate pitch, roll, tilt
-    aX = acc.getX()
-    aY = acc.getY()
-    aZ = acc.getZ()
+        # --------------------------------------------------
+        # calculate pitch, roll, tilt
+        aX = acc.getX()
+        aY = acc.getY()
+        aZ = acc.getZ()
 
-    gyro_x = gyro.getXangle()
-    gyro_y = gyro.getYangle()
-    
-    roll = acc.getRoll(pre_roll, gyro_y)
-    pitch = acc.getPitch(pre_pitch, gyro_x)
-    # --------------------------------------------------
+        gyro_x = gyro.getXangle()
+        gyro_y = gyro.getYangle()
+        
+        roll = acc.getRoll(pre_roll, gyro_y)
+        pitch = acc.getPitch(pre_pitch, gyro_x)
+        # --------------------------------------------------
 
-    # --------------------------------------------------
-    # Heading
-    bearing1  = degrees(atan2(magy, magx))
+        # --------------------------------------------------
+        # Heading
+        bearing1  = degrees(atan2(magy, magx))
 
-    if (bearing1 < 0):
-        bearing1 += 360
-    if (bearing1 > 360):
-        bearing1 -= 360
-    bearing1 = bearing1 + compass.angle_offset
-    
-    # Tilt compensate
-    compx = magx * cos(pitch) + magz * sin(pitch)
-    compy = magx * sin(roll) * sin(pitch) \
-            + magy * cos(roll) \
-            - magz * sin(roll) * cos(pitch)
+        if (bearing1 < 0):
+            bearing1 += 360
+        if (bearing1 > 360):
+            bearing1 -= 360
+        bearing1 = bearing1 + compass.angle_offset
+        
+        # Tilt compensate
+        compx = magx * cos(pitch) + magz * sin(pitch)
+        compy = magx * sin(roll) * sin(pitch) \
+                + magy * cos(roll) \
+                - magz * sin(roll) * cos(pitch)
 
-    bearing2  = degrees(atan2(compy, compx))
-    if (bearing2 < 0):
-        bearing2 += 360
-    if (bearing2 > 360):
-        bearing2 -= 360
-    bearing2 = bearing2 + compass.angle_offset
-    # --------------------------------------------------
+        bearing2  = degrees(atan2(compy, compx))
+        if (bearing2 < 0):
+            bearing2 += 360
+        if (bearing2 > 360):
+            bearing2 -= 360
+        bearing2 = bearing2 + compass.angle_offset
+        # --------------------------------------------------
 
-    #print ("Compass: " )
-    #print ("X = %d ," % ( magx ))
-    #print ("Y = %d ," % ( magy ))
-    #print ("Z = %d (gauss)" % ( magz ))
-    #print ("tiltX = %.3f ," % ( compx ))
-    #print ("tiltY = %.3f ," % ( compy ))
-   
-    #print ("Angle offset = %.3f deg" % ( compass.angle_offset ))
-    #print ("Original Heading = %.3f deg, " % ( bearing1 ))
-    #print ("Tilt Heading = %.3f deg, " % ( bearing2 ))
+        #print ("Compass: " )
+        #print ("X = %d ," % ( magx ))
+        #print ("Y = %d ," % ( magy ))
+        #print ("Z = %d (gauss)" % ( magz ))
+        #print ("tiltX = %.3f ," % ( compx ))
+        #print ("tiltY = %.3f ," % ( compy ))
+       
+        #print ("Angle offset = %.3f deg" % ( compass.angle_offset ))
+        #print ("Original Heading = %.3f deg, " % ( bearing1 ))
+        #print ("Tilt Heading = %.3f deg, " % ( bearing2 ))
 
-    print("Roll: %.3f, " %(roll)),
-    print("Pitch: %.3f, " %(pitch)),
-    print("Tilt: %.3f, " %(acc.getTilt()))
-    print("Heading: %.3f deg, " %(bearing2))
-    print("Altitude: %.3f." %(baro.getAltitude()))
-    time.sleep(1)
+        print("Roll: %.3f, " %(roll)),
+        print("Pitch: %.3f, " %(pitch)),
+        print("Tilt: %.3f, " %(acc.getTilt()))
+        print("Heading: %.3f deg, " %(bearing2))
+        print("Altitude: %.3f." %(baro.getAltitude()))
+        time.sleep(1)
 
 except KeyboardInterrupt:
     print("Cleanup")
