@@ -4,6 +4,7 @@ from imutils.video import FPS
 
 import imutils
 import time
+import datetime
 import cv2
 
 try:
@@ -23,7 +24,10 @@ try:
 
         # update the FPS counter
         fps.update()
-        cv2.putText(frame, fps, (200,200),cv2.FONT_HERSHEY_SIMPLEX, (0,0,255))
+        fps._end = datetime.datetime.now()
+
+#        print(fps.fps())
+        cv2.putText(frame, str(fps.fps()), (50,200),cv2.FONT_HERSHEY_SIMPLEX, 3, (0,0,255), 10)
         # Display image
         cv2.imshow("Frame", frame)
         key = cv2.waitKey(1) & 0xFF
