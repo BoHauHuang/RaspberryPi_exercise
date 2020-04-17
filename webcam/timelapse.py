@@ -1,8 +1,16 @@
+import picamera
 import schedule
 import time
+import os
+
+img_cnt = 1
+camera = picamera.PiCamera()
 
 def job():
-	print("executing code")
+	t = time.localtime()
+	print("At %d:%d, start capturing...", t[3], t[4])
+	camera.capture(str(img_cnt)+'.png')
+	img_cnt+=1
 
 schedule.every().minute.at(":00").do(job)
 
