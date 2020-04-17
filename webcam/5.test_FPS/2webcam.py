@@ -24,7 +24,7 @@ try:
 
         # update the FPS counter
         fps.update()
-
+        cv2.putText(frame, fps, (200,200),cv2.FONT_HERSHEY_SIMPLEX, (0,0,255))
         cv2.imshow("Frame", frame)
         key = cv2.waitKey(1) & 0xFF
         if key == ord("q"):
