@@ -7,8 +7,9 @@ img_cnt = 1
 camera = picamera.PiCamera()
 
 def job():
-	t = time.localtime()
-	print("At %d:%d, start capturing...", t[3], t[4])
+	global img_cnt
+        t = time.localtime()
+        print("At "+str(t[3])+":"+str(t[4])+", start capturing...")
 	camera.capture(str(img_cnt)+'.png')
 	img_cnt+=1
 
