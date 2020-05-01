@@ -26,6 +26,9 @@ class Camera(object):
             PROP_FRAME_WIDTH = cv2.CAP_PROP_FRAME_WIDTH
             PROP_FRAME_HEIGHT = cv2.CAP_PROP_FRAME_HEIGHT
         self.video = cv2.VideoCapture(0)
+        self.video.set(PROP_FRAME_WIDTH, 320)
+        self.video.set(PROP_FRAME_HEIGHT, 240)
+
         #self.video = PiVideoStream().start()
         self.img = None
 
@@ -35,7 +38,7 @@ class Camera(object):
         
     def get_img(self):
         while True:
-            image = self.video.read()
+            ret, image = self.video.read()
             if image is not None:
                 return image
 
