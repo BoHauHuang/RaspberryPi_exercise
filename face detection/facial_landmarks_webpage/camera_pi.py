@@ -18,10 +18,10 @@ import numpy as np
 import imutils
 import dlib
 
-detector_file = "model/haarcascade_frontalface_default.xml"
+detector_file = "../model/haarcascade_frontalface_default.xml"
 detector = cv2.CascadeClassifier(detector_file)
 
-predictor_file = "model/shape_predictor_68_face_landmarks.dat"
+predictor_file = "../model/shape_predictor_68_face_landmarks.dat"
 predictor = dlib.shape_predictor(predictor_file)
 
 class Camera(object):
