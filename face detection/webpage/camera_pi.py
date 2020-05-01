@@ -32,6 +32,7 @@ class Camera(object):
 
     def __del__(self):
         self.video.release()
+        
     def get_img(self):
         while True:
             image = self.video.read()
@@ -39,7 +40,7 @@ class Camera(object):
                 return image
 
     def get_frame(self):
-        self.img = get_img
+        self.img = self.get_img()
 
         gray_img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
 
