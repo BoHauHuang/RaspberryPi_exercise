@@ -12,7 +12,11 @@
 # Origin : http://blog.miguelgrinberg.com/post/video-streaming-with-flask
 
 from imutils.video.pivideostream import PiVideoStream
+from imutils import face_utils
 import cv2
+import numpy as np
+import imutils
+import dlib
 
 detector_file = "model/haarcascade_frontalface_default.xml"
 detector = cv2.CascadeClassifier(detector_file)
