@@ -30,22 +30,20 @@ class Camera(object):
         self.video.set(PROP_FRAME_HEIGHT, 240)
 
         #self.video = PiVideoStream().start()
-        self.img = None
 
 
     def __del__(self):
         self.video.release()
         
-    def get_img(self):
-        while True:
-            
-            if image is not None:
-                return image
 
     def get_frame(self):
-        ret, self.img = self.video.read()
+        
+        while True:
+            ret, img = self.video.read()
+            if image is not None:
+                break
 
-        gray_img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         faces = faceCascade.detectMultiScale(
             gray_img,
@@ -58,7 +56,7 @@ class Camera(object):
 
         # Draw a rectangle around the faces
         for (x, y, w, h) in faces:
-            cv2.rectangle(self.img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-        ret, jpeg = cv2.imencode('.jpg', self.img)
+        ret, jpeg = cv2.imencode('.jpg', img)
         return jpeg.tostring()
