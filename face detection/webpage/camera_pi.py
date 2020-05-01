@@ -38,12 +38,12 @@ class Camera(object):
         
     def get_img(self):
         while True:
-            ret, image = self.video.read()
+            
             if image is not None:
                 return image
 
     def get_frame(self):
-        self.img = self.get_img()
+        ret, self.img = self.video.read()
 
         gray_img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
 
