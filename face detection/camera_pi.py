@@ -32,6 +32,7 @@ class Camera(object):
 
     def __del__(self):
         self.video.release()
+        
     def get_img(self):
         while True:
             image = self.video.read()
