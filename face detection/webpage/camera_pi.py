@@ -14,7 +14,7 @@
 from imutils.video.pivideostream import PiVideoStream
 import cv2
 
-cascPath = "model/haarcascade_frontalface_default.xml"
+cascPath = "../model/haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
 class Camera(object):
@@ -49,6 +49,7 @@ class Camera(object):
             gray_img,
             scaleFactor=1.1,
             minNeighbors=5,
+            minSize=(30, 30)
         )
 
         print ("Found {0} faces!".format(len(faces)))
