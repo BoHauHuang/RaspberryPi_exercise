@@ -6,7 +6,7 @@ from gtts import gTTS
 r=sr.Recognizer() 
 
 #myvoice = sr.AudioFile('hello.mp3')
-myvoice = sr.AudioFile('ls.wav')
+myvoice = sr.AudioFile('proc.wav')
 with myvoice as source:
     print("Use audio file as input!")
     audio = r.record(source)
@@ -16,9 +16,9 @@ try:
     print("Google Speech Recognition thinks you said:")
     cmd = r.recognize_google(audio)
     print(cmd)
-    if cmd == "files":
-        os.system('ls')
-        output = os.popen('ls').read()
+    if cmd == "process":
+        os.system('ps')
+        output = os.popen('ps').read()
         tts = gTTS(text=output, lang='en')
         tts.save('output.mp3')
         os.system('omxplayer -o local -p output.mp3 > /dev/null 2>&1')
