@@ -1,7 +1,7 @@
 from gtts import gTTS
 import os
 
-tts = gTTS(text='hello', lang='en')
-tts.save('hello.mp3')
+tts = gTTS(text='ls', lang='en')
+tts.save('hello.wav')
 
-os.system('omxplayer -o local -p hello.mp3 > /dev/null 2>&1')
+os.system('omxplayer -o local -p hello.wav > /dev/null 2>&1')
