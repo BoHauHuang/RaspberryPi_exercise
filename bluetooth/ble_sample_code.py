@@ -33,9 +33,23 @@ def ble_scan(sock):
             minor = beacon.split(",")[3]
             txpower = beacon.split(",")[4]
             rssi = beacon.split(",")[5]
+            cof1 = 0.42093
+            cof2 = 6.9476
+            cof3 = 0.54992
+
+            ratio = 1.0*float(rssi)/float(txpower)
+            
+            distance = 0
+
+            if ratio < 1.0:
+                distance = pow(ratio,10)
+            else:
+                distance = cof1*pow(ratio, cof2) + cof3
+
             print "uuid:", uuid
             print "major:", major, ", minor:", minor, ", txpower:", txpower
             print "rssi", rssi
+            print "distance: ", str(distance)
             print "--------"
 
     return rssiDict
